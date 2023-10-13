@@ -10,6 +10,8 @@ namespace ProductCatalog.API
         {
             CreateMap<ProductModel, ProductDto>().ReverseMap();
             CreateMap<CategoryModel, CategoryDto>().ReverseMap();
+            CreateMap<UpdateProductDto, ProductModel>();
+            CreateMap<UpdateCategoryDto, CategoryModel>();
         }
     }
 }

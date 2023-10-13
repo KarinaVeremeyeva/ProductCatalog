@@ -45,7 +45,7 @@ namespace ProductCatalog.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(CategoryDto categoryDto)
+        public async Task<IActionResult> CreateCategory(UpdateCategoryDto categoryDto)
         {
             var categoryModel = _mapper.Map<CategoryModel>(categoryDto);
             var addedCategory = await _categoryService.CreateCategoryAsync(categoryModel);
@@ -54,11 +54,11 @@ namespace ProductCatalog.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateCategory(CategoryDto categoryDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCategory(Guid id, UpdateCategoryDto categoryDto)
         {
             var categoryModel = _mapper.Map<CategoryModel>(categoryDto);
-            var addedCategory = await _categoryService.UpdateCategoryAsync(categoryModel);
+            var addedCategory = await _categoryService.UpdateCategoryAsync(id, categoryModel);
             var result = _mapper.Map<CategoryDto>(addedCategory);
 
             return Ok(result);

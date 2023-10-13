@@ -55,9 +55,16 @@ namespace ProductCatalog.BLL.Services
             await _categoryRepository.RemoveAsync(category.Id);
         }
 
-        public async Task<CategoryModel> UpdateCategoryAsync(CategoryModel category)
+        public async Task<CategoryModel> UpdateCategoryAsync(Guid id, CategoryModel category)
         {
-            var categoryToUpdate = _mapper.Map<Category>(category);
+            var categoryToUpdate = await _categoryRepository.GetByIdAsync(id);
+            if (categoryToUpdate == null)
+            {
+                throw new ArgumentException($"Category {id} was not found");
+            }
+
+            categoryToUpdate.Name = category.Name;
+
             var updatedCategory = await _categoryRepository.UpdateAsync(categoryToUpdate);
             var categoryModel = _mapper.Map<CategoryModel>(updatedCategory);
 

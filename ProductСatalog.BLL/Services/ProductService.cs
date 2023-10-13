@@ -8,13 +8,16 @@ namespace ProductCatalog.BLL.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
 
         public ProductService(
             IProductRepository productRepository,
+            ICategoryService categoryService,
             IMapper mapper)
         {
             _productRepository = productRepository;
+            _categoryService = categoryService;
             _mapper = mapper;
         }
 
@@ -58,9 +61,14 @@ namespace ProductCatalog.BLL.Services
             var productToUpdate = await _productRepository.GetByIdAsync(id);
             if (productToUpdate == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException($"Product {id} was not found");
             }
-            //var productToUpdate = _mapper.Map<Product>(product);
+
+            var category = await _categoryService.GetCategoryAsync(productToUpdate.CategoryId);
+            if (category == null)
+            {
+                throw new ArgumentException($"Category {productToUpdate.CategoryId} was not found");
+            }
 
             productToUpdate.Name = product.Name;
             productToUpdate.Price = product.Price;

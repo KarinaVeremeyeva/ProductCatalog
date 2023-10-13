@@ -45,7 +45,7 @@ namespace ProductCatalog.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductDto productDto)
+        public async Task<IActionResult> CreateProduct(UpdateProductDto productDto)
         {
             var productModel = _mapper.Map<ProductModel>(productDto);
             var addedProduct = await _productService.CreateProductAsync(productModel);

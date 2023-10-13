@@ -8,10 +8,10 @@ namespace ProductCatalog.BLL.Services
 
         Task<IEnumerable<CategoryModel>> GetCategoriesAsync();
 
-        Task<CategoryModel?> GetCategoryAsync(Guid categoryId);
+        Task<CategoryModel?> GetCategoryAsync(Guid id);
 
-        Task<CategoryModel> UpdateCategoryAsync(CategoryModel category);
+        Task<CategoryModel> UpdateCategoryAsync(Guid id, CategoryModel category);
 
-        Task RemoveCategoryAsync(Guid categoryId);
+        Task RemoveCategoryAsync(Guid id);
     }
 }
