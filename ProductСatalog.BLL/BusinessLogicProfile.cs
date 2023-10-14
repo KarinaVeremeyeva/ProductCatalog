@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using ProductCatalog.BLL.Models;
 using ProductCatalog.DAL.Entities;
+using ProductСatalog.BLL.Models;
 
 namespace ProductCatalog.BLL
 {
@@ -10,6 +12,8 @@ namespace ProductCatalog.BLL
         {
             CreateMap<Product, ProductModel>().ReverseMap();
             CreateMap<Category, CategoryModel>().ReverseMap();
+            CreateMap<IdentityUser, UserModel>();
+            CreateMap<IdentityRole, RoleModel>();
         }
     }
 }
