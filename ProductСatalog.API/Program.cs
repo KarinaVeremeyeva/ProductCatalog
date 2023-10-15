@@ -8,11 +8,23 @@ using ProductCatalog.BLL;
 using ProductCatalog.BLL.Services;
 using ProductCatalog.DAL;
 using ProductCatalog.DAL.Repositories;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 var tokenSettings = builder.Configuration.GetSection("TokenSettings");
+
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.ClearProviders();
+    loggingBuilder.AddSerilog(logger);
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
