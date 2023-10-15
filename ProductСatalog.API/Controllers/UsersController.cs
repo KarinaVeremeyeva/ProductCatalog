@@ -35,12 +35,16 @@ namespace ProductCatalog.API.Controllers
         public async Task<IActionResult> CreateUser(string email, string password)
         {
             var user = await _userService.GetUserByEmailAsync(email);
-            if (user == null)
+            if (user != null)
             {
                 return BadRequest();
             }
 
-            await _userService.CreateUserAsync(email, password);
+            var result = await _userService.CreateUserAsync(email, password);
+            if (result.Errors.Any())
+            {
+                return BadRequest(result.Errors);
+            }
 
             return Ok();
         }
@@ -62,9 +66,9 @@ namespace ProductCatalog.API.Controllers
                 return NotFound();
             }
 
-            var result = await _userService.ChangeUserPasswordAsync(id, newPassword);
+            await _userService.ChangeUserPasswordAsync(id, newPassword);
 
-            return Ok(result);
+            return Ok();
         }
 
         [HttpPut("{id}/lock/{isLocked}")]

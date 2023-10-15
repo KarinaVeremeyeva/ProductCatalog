@@ -5,9 +5,9 @@ namespace ProductCatalog.BLL.Services
 {
     public interface IUserService
     {
-        Task<IdentityResult> ChangeUserPasswordAsync(string id, string newPassword);
+        Task<IdentityResult> ChangeUserPasswordAsync(string userId, string newPassword);
 
-        Task CreateUserAsync(string email, string password);
+        Task<IdentityResult> CreateUserAsync(string email, string password);
 
         Task<IdentityResult> DeleteUserAsync(string id);
 

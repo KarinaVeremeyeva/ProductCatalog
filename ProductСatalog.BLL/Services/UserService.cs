@@ -25,21 +25,25 @@ namespace ProductCatalog.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<IdentityResult> ChangeUserPasswordAsync(string email, string newPassword)
+        public async Task<IdentityResult> ChangeUserPasswordAsync(string userId, string newPassword)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByIdAsync(userId);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
             return result;
         }
 
-        public async Task CreateUserAsync(string email, string password)
+        public async Task<IdentityResult> CreateUserAsync(string email, string password)
         {
-            var user = new IdentityUser { Email = email };
-            await _userManager.CreateAsync(user, password);
-            
-            await _userManager.AddToRoleAsync(user, "User");
+            var user = new IdentityUser { Email = email, UserName = email };
+            var result = await _userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+            }
+
+            return result;
         }
 
         public async Task<IdentityResult> DeleteUserAsync(string id)
