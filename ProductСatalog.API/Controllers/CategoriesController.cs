@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.API.DTOs;
 using ProductCatalog.BLL.Models;
@@ -6,6 +7,7 @@ using ProductCatalog.BLL.Services;
 
 namespace ProductCatalog.API.Controllers
 {
+    [Authorize(Roles = "AdvancedUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -21,6 +23,7 @@ namespace ProductCatalog.API.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
@@ -30,6 +33,7 @@ namespace ProductCatalog.API.Controllers
             return Ok(categoriesDto);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategory(Guid id)
         {
@@ -57,6 +61,12 @@ namespace ProductCatalog.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(Guid id, UpdateCategoryDto categoryDto)
         {
+            var category = await _categoryService.GetCategoryAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
             var categoryModel = _mapper.Map<CategoryModel>(categoryDto);
             var addedCategory = await _categoryService.UpdateCategoryAsync(id, categoryModel);
             var result = _mapper.Map<CategoryDto>(addedCategory);

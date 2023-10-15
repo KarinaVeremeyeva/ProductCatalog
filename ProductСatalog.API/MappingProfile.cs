@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ProductCatalog.API.DTOs;
 using ProductCatalog.BLL.Models;
+using ProductСatalog.BLL.Models;
 
 namespace ProductCatalog.API
 {
@@ -12,6 +13,8 @@ namespace ProductCatalog.API
             CreateMap<CategoryModel, CategoryDto>().ReverseMap();
             CreateMap<UpdateProductDto, ProductModel>();
             CreateMap<UpdateCategoryDto, CategoryModel>();
+            CreateMap<UserModel, UserDto>();
+            CreateMap<RoleModel, RoleDto>();
         }
     }
 }
