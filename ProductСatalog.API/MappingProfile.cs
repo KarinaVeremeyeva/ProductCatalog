@@ -15,6 +15,7 @@ namespace ProductCatalog.API
             CreateMap<UpdateCategoryDto, CategoryModel>();
             CreateMap<UserModel, UserDto>();
             CreateMap<RoleModel, RoleDto>();
+            CreateMap<FilterProductsModel, FilterProductsDto>().ReverseMap();
         }
     }
 }

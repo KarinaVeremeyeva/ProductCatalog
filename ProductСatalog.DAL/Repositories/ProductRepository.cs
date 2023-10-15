@@ -26,5 +26,10 @@ namespace ProductCatalog.DAL.Repositories
 
             return product;
         }
+
+        public IQueryable<Product> GetQuery()
+        {
+            return _context.Products.Include(p => p.Category).AsQueryable();
+        }
     }
 }

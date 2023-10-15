@@ -6,9 +6,9 @@ namespace ProductCatalog.BLL.Services
     {
         Task<ProductModel> CreateProductAsync(ProductModel product);
 
-        Task<IEnumerable<ProductModel>> GetProductsAsync();
+        Task<IEnumerable<ProductModel>> GetProductsAsync(FilterProductsModel filterProduct);
 
-        Task<ProductModel?> GetProductAsync(Guid id);
+        Task<ProductModel?> GetProductByIdAsync(Guid id);
 
         Task<ProductModel> UpdateProductAsync(Guid id, ProductModel product);
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using ProductCatalog.BLL.Models;
 using ProductCatalog.DAL.Entities;
 using ProductCatalog.DAL.Repositories;
@@ -9,13 +10,16 @@ namespace ProductCatalog.BLL.Services
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
         public CategoryService(
             ICategoryRepository categoryRepository,
-            IMapper mapper)
+            IMapper mapper,
+            ILogger<CategoryService> logger)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<CategoryModel> CreateCategoryAsync(CategoryModel category)
@@ -23,6 +27,8 @@ namespace ProductCatalog.BLL.Services
             var categoryToAdd = _mapper.Map<Category>(category);
             var addedCategory = await _categoryRepository.CreateAsync(categoryToAdd);
             var categoryModel = _mapper.Map<CategoryModel>(addedCategory);
+
+            _logger.LogInformation($"Category {category.Id} was created");
 
             return categoryModel;
         }
@@ -35,7 +41,7 @@ namespace ProductCatalog.BLL.Services
             return categoryModels;
         }
 
-        public async Task<CategoryModel?> GetCategoryAsync(Guid categoryId)
+        public async Task<CategoryModel?> GetCategoryByIdAsync(Guid categoryId)
         {
             var category = await _categoryRepository.GetByIdAsync(categoryId);
 
@@ -60,6 +66,8 @@ namespace ProductCatalog.BLL.Services
             var categoryToUpdate = await _categoryRepository.GetByIdAsync(id);
             if (categoryToUpdate == null)
             {
+                _logger.LogError($"Category {id} doesn't exist. Update failure");
+
                 throw new ArgumentException($"Category {id} was not found");
             }
 
@@ -67,6 +75,8 @@ namespace ProductCatalog.BLL.Services
 
             var updatedCategory = await _categoryRepository.UpdateAsync(categoryToUpdate);
             var categoryModel = _mapper.Map<CategoryModel>(updatedCategory);
+
+            _logger.LogInformation($"Category {id} was updated");
 
             return categoryModel;
         }

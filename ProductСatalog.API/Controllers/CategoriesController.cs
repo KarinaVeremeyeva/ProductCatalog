@@ -37,7 +37,7 @@ namespace ProductCatalog.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategory(Guid id)
         {
-            var category = await _categoryService.GetCategoryAsync(id);
+            var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -61,7 +61,7 @@ namespace ProductCatalog.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(Guid id, UpdateCategoryDto categoryDto)
         {
-            var category = await _categoryService.GetCategoryAsync(id);
+            var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
             {
                 return NotFound();
