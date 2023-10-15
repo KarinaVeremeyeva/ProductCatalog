@@ -26,9 +26,10 @@ namespace ProductCatalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts([FromQuery] FilterProductsDto filterProductsDto)
         {
-            var products = await _productService.GetProductsAsync();
+            var filterProducts = _mapper.Map<FilterProductsModel>(filterProductsDto);
+            var products = await _productService.GetProductsAsync(filterProducts);
             var productsDto = _mapper.Map<List<ProductDto>>(products);
 
             return Ok(productsDto);
@@ -52,7 +53,7 @@ namespace ProductCatalog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(UpdateProductDto productDto)
         {
-            var category = await _categoryService.GetCategoryAsync(productDto.CategoryId);
+            var category = await _categoryService.GetCategoryByIdAsync(productDto.CategoryId);
             if (category == null)
             {
                 return BadRequest();
@@ -70,13 +71,13 @@ namespace ProductCatalog.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(Guid id, UpdateProductDto productDto)
         {
-            var product = await _productService.GetProductAsync(id);
+            var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            var category = await _categoryService.GetCategoryAsync(productDto.CategoryId);
+            var category = await _categoryService.GetCategoryByIdAsync(productDto.CategoryId);
             if (category == null)
             {
                 return BadRequest();

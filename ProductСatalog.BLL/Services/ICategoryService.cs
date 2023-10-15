@@ -8,7 +8,7 @@ namespace ProductCatalog.BLL.Services
 
         Task<IEnumerable<CategoryModel>> GetCategoriesAsync();
 
-        Task<CategoryModel?> GetCategoryAsync(Guid id);
+        Task<CategoryModel?> GetCategoryByIdAsync(Guid id);
 
         Task<CategoryModel> UpdateCategoryAsync(Guid id, CategoryModel category);
 

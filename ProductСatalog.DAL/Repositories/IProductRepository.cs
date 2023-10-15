@@ -4,5 +4,6 @@ namespace ProductCatalog.DAL.Repositories
 {
     public interface IProductRepository : IRepository<Product>
     {
+        IQueryable<Product> GetQuery();
     }
 }
