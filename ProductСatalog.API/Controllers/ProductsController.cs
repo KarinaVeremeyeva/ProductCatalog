@@ -35,19 +35,19 @@ namespace ProductCatalog.API.Controllers
             return Ok(productsDto);
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetProduct(Guid id)
-        //{
-        //    var product = await _productService.GetProductAsync(id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(Guid id)
+        {
+            var product = await _productService.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
 
-        //    var productDto = _mapper.Map<ProductDto>(product);
+            var productDto = _mapper.Map<ProductDto>(product);
 
-        //    return Ok(productDto);
-        //}
+            return Ok(productDto);
+        }
 
         [Authorize(Roles = "AdvancedUser, User")]
         [HttpPost]

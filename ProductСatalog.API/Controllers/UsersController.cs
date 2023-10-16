@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.API.DTOs;
 using ProductCatalog.BLL.Services;
+using ProductCatalog.DAL.Entities;
 
 namespace ProductCatalog.API.Controllers
 {
@@ -29,6 +30,20 @@ namespace ProductCatalog.API.Controllers
             var usersDto = _mapper.Map<List<UserDto>>(users);
 
             return Ok(usersDto);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return Ok(userDto);
         }
 
         [HttpPost]

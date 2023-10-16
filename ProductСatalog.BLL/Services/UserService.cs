@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ProductCatalog.BLL.Models;
 using ProductСatalog.BLL.Models;
 
 namespace ProductCatalog.BLL.Services
@@ -10,18 +9,15 @@ namespace ProductCatalog.BLL.Services
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
         public UserService(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
             IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _mapper = mapper;
         }
 
@@ -57,9 +53,17 @@ namespace ProductCatalog.BLL.Services
         public async Task<IEnumerable<UserModel>> GetUsersAsync()
         {
             var users = await _userManager.Users.ToListAsync();
-            var usersModels = _mapper.Map<List<UserModel>>(users);
+            //var usersModels = _mapper.Map<List<UserModel>>(users);
+            var userModels = await Task.WhenAll(users.Select(async user =>
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var userModel = _mapper.Map<UserModel>(user);
+                userModel.Roles = roles.ToList();
 
-            return usersModels;
+                return userModel;
+            }));
+
+            return userModels;
         }
 
         public async Task LockUserAsync(string userId, bool isLocked)
