@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using ProductCatalog.Web.DTOs;
 using ProductCatalog.Web.Models;
 using ProductCatalog.Web.Services;
 using ProductCatalog.Web.ViewModels;
@@ -28,9 +29,71 @@ namespace ProductCatalog.Web.Controllers
             return View(productsViewModels);
         }
 
-        public IActionResult Privacy()
+        public ActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ProductViewModel productViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var productDto = _mapper.Map<UpdateProductDto>(productViewModel);
+                var response = await _productApiService.CreateProductAsync(productDto);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(productViewModel);
+        }
+
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var productToUpdate = await _productApiService.GetProductByIdAsync(id);
+            if (productToUpdate == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            var product = _mapper.Map<ProductViewModel>(productToUpdate);
+
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Guid id, [FromForm] ProductViewModel productViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var productDto = _mapper.Map<UpdateProductDto>(productViewModel);
+                await _productApiService.UpdateProductAsync(id, productDto);
+
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var productToDelete = await _productApiService.GetProductByIdAsync(id);
+            if (productToDelete == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            var product = _mapper.Map<ProductViewModel>(productToDelete);
+
+            return View(product);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var response = await _productApiService.DeleteProductAsync(id);
+            
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

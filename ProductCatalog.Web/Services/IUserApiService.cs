@@ -4,7 +4,7 @@ namespace ProductCatalog.Web.Services
 {
     public interface IUserApiService
     {
-        Task<IEnumerable<UserDto>?> GetUersAsync();
+        Task<IEnumerable<UserDto>?> GetUsersAsync();
 
         Task<HttpResponseMessage> CreateUserAsync(string email, string password);
 

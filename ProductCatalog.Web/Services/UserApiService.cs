@@ -24,7 +24,7 @@ namespace ProductCatalog.Web.Services
             return await _httpClient.GetAsync($"{AuthApiPath}/logout");
         }
 
-        public async Task<IEnumerable<UserDto>?> GetUersAsync()
+        public async Task<IEnumerable<UserDto>?> GetUsersAsync()
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<UserDto>>($"{UsersApiPath}");
         }

@@ -18,6 +18,11 @@ namespace ProductCatalog.Web.Services
             return await _httpClient.GetFromJsonAsync<IEnumerable<CategoryDto>>(CategoriesPath);
         }
 
+        public async Task<CategoryDto?> GetCategoryByIdAsync(Guid id)
+        {
+            return await _httpClient.GetFromJsonAsync<CategoryDto>($"{CategoriesPath}/{id}");
+        }
+
         public async Task<CategoryDto?> CreateCategoryAsync(UpdateCategoryDto categoryDto)
         {
             var result = await _httpClient.PostAsJsonAsync($"{CategoriesPath}", categoryDto);

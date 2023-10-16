@@ -10,6 +10,7 @@ namespace ProductCatalog.Web
         {
             CreateMap<ProductDto, ProductViewModel>().ReverseMap();
             CreateMap<CategoryDto, CategoryViewModel>().ReverseMap();
+            CreateMap<UpdateCategoryDto, CategoryViewModel>().ReverseMap();
             CreateMap<LoginDto, LoginViewModel>().ReverseMap();
         }
     }

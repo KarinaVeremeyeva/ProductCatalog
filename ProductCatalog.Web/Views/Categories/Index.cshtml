@@ -1,0 +1,24 @@
+﻿@model IEnumerable<CategoryViewModel>
+@{
+    ViewData["Title"] = "Categories Page";
+}
+<h3>Products list</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var category in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => category.Name)</td>
+            <td class="text-center">
+                @Html.ActionLink("Edit", "Edit", new { id = category.Id }, new { @class = "btn btn-outline-primary" })
+                @Html.ActionLink("Delete", "Delete", new { id = category.Id }, new { @class = "btn btn-outline-danger" })
+            </td>
+        </tr>
+    }
+</table>

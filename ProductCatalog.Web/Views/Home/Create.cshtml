@@ -1,0 +1,33 @@
+﻿@model ProductViewModel
+@{
+    ViewData["Title"] = "Create product page";
+}
+<h4>Create product</h4>
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Price</label>
+        <input class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <input class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">General note</label>
+        <input class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Special note</label>
+        <input class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <input class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

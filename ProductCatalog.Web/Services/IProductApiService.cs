@@ -6,7 +6,7 @@ namespace ProductCatalog.Web.Services
     {
         Task<IEnumerable<ProductDto>?> GetProductsAsync();
 
-        //Task<ProductDto> GetProductByIdAsync(Guid id);
+        Task<ProductDto?> GetProductByIdAsync(Guid id);
 
         Task<ProductDto?> CreateProductAsync(UpdateProductDto productDto);
 

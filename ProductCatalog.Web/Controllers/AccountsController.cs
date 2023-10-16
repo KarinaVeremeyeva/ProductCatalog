@@ -11,7 +11,9 @@ namespace ProductCatalog.Web.Controllers
         private readonly IUserApiService _userApiService;
         private readonly IMapper _mapper;
 
-        public AccountsController(IUserApiService userApiService, IMapper mapper)
+        public AccountsController(
+            IUserApiService userApiService,
+            IMapper mapper)
         {
             _userApiService = userApiService;
             _mapper = mapper;
