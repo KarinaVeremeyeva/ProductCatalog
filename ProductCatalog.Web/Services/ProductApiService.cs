@@ -34,6 +34,14 @@ namespace ProductCatalog.Web.Services
             return await _httpClient.GetFromJsonAsync<IEnumerable<ProductDto>>(ProductsPath);
         }
 
+        public async Task<IEnumerable<ProductDto>?> GetProductsAsync(FilterProductDto filterProductDto)
+        {
+            var queryString = $"NamePart={filterProductDto.NamePart}&MinPrice={filterProductDto.MinPrice}" +
+                $"&MaxPrice={filterProductDto.MaxPrice}&CategoryNamePart={filterProductDto.CategoryNamePart}";
+
+            return await _httpClient.GetFromJsonAsync<IEnumerable<ProductDto>>($"{ProductsPath}?{queryString}");
+        }
+
         public async Task<ProductDto?> GetProductByIdAsync(Guid id)
         {
             return await _httpClient.GetFromJsonAsync<ProductDto>($"{ProductsPath}/{id}");

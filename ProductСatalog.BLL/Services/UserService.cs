@@ -53,17 +53,18 @@ namespace ProductCatalog.BLL.Services
         public async Task<IEnumerable<UserModel>> GetUsersAsync()
         {
             var users = await _userManager.Users.ToListAsync();
-            //var usersModels = _mapper.Map<List<UserModel>>(users);
-            var userModels = await Task.WhenAll(users.Select(async user =>
+            var usersWithRoles = new List<UserModel>();
+
+            foreach (var user in users)
             {
+                var userWithRoles = _mapper.Map<UserModel>(user);
                 var roles = await _userManager.GetRolesAsync(user);
-                var userModel = _mapper.Map<UserModel>(user);
-                userModel.Roles = roles.ToList();
 
-                return userModel;
-            }));
+                userWithRoles.Roles = roles;
+                usersWithRoles.Add(userWithRoles);
+            }
 
-            return userModels;
+            return usersWithRoles;
         }
 
         public async Task LockUserAsync(string userId, bool isLocked)

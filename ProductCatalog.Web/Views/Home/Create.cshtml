@@ -1,32 +1,32 @@
-﻿@model ProductViewModel
+﻿@model UpdateProductViewModel
 @{
     ViewData["Title"] = "Create product page";
 }
 <h4>Create product</h4>
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" class="col-md-4">
     <div class="mb-3">
         <label class="form-label">Name</label>
-        <input class="form-control" />
+        <input asp-for="Name" class="form-control" />
     </div>
     <div class="mb-3">
         <label class="form-label">Price</label>
-        <input class="form-control" />
+        <input asp-for="Price" type="number" class="form-control" />
     </div>
     <div class="mb-3">
         <label class="form-label">Description</label>
-        <input class="form-control" />
+        <input asp-for="Description" class="form-control" />
     </div>
     <div class="mb-3">
         <label class="form-label">General note</label>
-        <input class="form-control" />
+        <input asp-for="GeneralNote" class="form-control" />
     </div>
     <div class="mb-3">
         <label class="form-label">Special note</label>
-        <input class="form-control" />
+        <input asp-for="SpecialNote" class="form-control" />
     </div>
     <div class="mb-3">
         <label class="form-label">Category</label>
-        <input class="form-control" />
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select"></select>
     </div>
 
     <button type="submit" class="btn btn-primary">Create</button>

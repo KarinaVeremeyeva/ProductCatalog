@@ -3,10 +3,10 @@
     ViewData["Title"] = "Create category page";
 }
 <h4>Create category</h4>
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" class="col-md-4">
     <div class="mb-3">
         <label class="form-label">Name</label>
-        <input class="form-control" />
+        <input asp-for="Name" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>

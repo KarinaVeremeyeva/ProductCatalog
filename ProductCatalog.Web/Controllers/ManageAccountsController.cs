@@ -30,5 +30,75 @@ namespace ProductCatalog.Web.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(string email, string password)
+        {
+            var response = await _userApiService.CreateUserAsync(email, password);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            return View();
+        }
+
+        public async Task<IActionResult> LockUser(string id)
+        {
+            var user = await _userApiService.GetUserByIdAsync(id);
+            if (user != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LockUser(string id, bool isLocked)
+        {
+            var response = await _userApiService.LockUserAsync(id, isLocked);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await _userApiService.GetUserByIdAsync(id);
+            if (user != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var response = await _userApiService.DeleteUserAsync(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ChangeUserPassword(string id)
+        {
+            var user = await _userApiService.GetUserByIdAsync(id);
+            if (user != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserPassword(string id, string newPassword)
+        {
+            var response = await _userApiService.ChangeUserPasswordAsync(id, newPassword);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -29,6 +29,11 @@ namespace ProductCatalog.Web.Services
             return await _httpClient.GetFromJsonAsync<IEnumerable<UserDto>>($"{UsersApiPath}");
         }
 
+        public async Task<UserDto?> GetUserByIdAsync(string id)
+        {
+            return await _httpClient.GetFromJsonAsync<UserDto>($"{UsersApiPath}/{id}");
+        }
+
         public async Task<HttpResponseMessage> CreateUserAsync(string email, string password)
         {
             return await _httpClient.PostAsJsonAsync($"{UsersApiPath}", new { email, password });
@@ -42,6 +47,11 @@ namespace ProductCatalog.Web.Services
         public async Task<HttpResponseMessage> ChangeUserPasswordAsync(string id, string newPassword)
         {
             return await _httpClient.PutAsJsonAsync($"{UsersApiPath}/{id}/password", newPassword);
+        }
+
+        public async Task<HttpResponseMessage> LockUserAsync(string id, bool isLocked)
+        {
+            return await _httpClient.PutAsync($"{UsersApiPath}/{id}/lock/{isLocked}", null);
         }
     }
 }

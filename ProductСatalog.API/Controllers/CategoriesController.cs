@@ -7,7 +7,7 @@ using ProductCatalog.BLL.Services;
 
 namespace ProductCatalog.API.Controllers
 {
-    [Authorize(Roles = "AdvancedUser")]
+    //[Authorize(Roles = "AdvancedUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase

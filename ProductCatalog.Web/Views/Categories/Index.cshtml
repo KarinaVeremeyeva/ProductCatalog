@@ -2,9 +2,11 @@
 @{
     ViewData["Title"] = "Categories Page";
 }
-<h3>Products list</h3>
-
-<table>
+<h4>Categories list</h4>
+<p>
+    @Html.ActionLink("Create", "Create", "Categories", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
     <thead>
         <tr>
             <th>Name</th>
@@ -15,7 +17,7 @@
     {
         <tr>
             <td>@Html.DisplayFor(m => category.Name)</td>
-            <td class="text-center">
+            <td>
                 @Html.ActionLink("Edit", "Edit", new { id = category.Id }, new { @class = "btn btn-outline-primary" })
                 @Html.ActionLink("Delete", "Delete", new { id = category.Id }, new { @class = "btn btn-outline-danger" })
             </td>

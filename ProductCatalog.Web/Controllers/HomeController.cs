@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProductCatalog.Web.DTOs;
 using ProductCatalog.Web.Models;
 using ProductCatalog.Web.Services;
@@ -11,13 +12,16 @@ namespace ProductCatalog.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IProductApiService _productApiService;
+        private readonly ICategoryApiService _categoryApiService;
         private readonly IMapper _mapper;
 
         public HomeController(
             IProductApiService productApiService,
+            ICategoryApiService categoryApiService,
             IMapper mapper)
         {
             _productApiService = productApiService;
+            _categoryApiService = categoryApiService;
             _mapper = mapper;
         }
 
@@ -29,23 +33,42 @@ namespace ProductCatalog.Web.Controllers
             return View(productsViewModels);
         }
 
-        public ActionResult Create()
+        [HttpPost]
+        public async Task<IActionResult> Index(FilterProductViewModel filterProducts)
         {
+            var filterProductsDto = _mapper.Map<FilterProductDto>(filterProducts);
+
+            var products = await _productApiService.GetProductsAsync(filterProductsDto);
+            var productsViewModels = _mapper.Map<List<ProductViewModel>>(products);
+
+            ViewBag.FilterProducts = filterProducts;
+
+            return View(productsViewModels);
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            var categories = await _categoryApiService.GetCategoriesAsync();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductViewModel productViewModel)
+        public async Task<IActionResult> Create(UpdateProductViewModel productViewModel)
         {
             if (ModelState.IsValid)
             {
                 var productDto = _mapper.Map<UpdateProductDto>(productViewModel);
-                var response = await _productApiService.CreateProductAsync(productDto);
+                var result = await _productApiService.CreateProductAsync(productDto);
 
-                return RedirectToAction(nameof(Index));
+                if (result != null)
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
-            return View(productViewModel);
+            return View();
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -56,20 +79,26 @@ namespace ProductCatalog.Web.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var product = _mapper.Map<ProductViewModel>(productToUpdate);
+            var categories = await _categoryApiService.GetCategoriesAsync();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+
+            var product = _mapper.Map<UpdateProductViewModel>(productToUpdate);
 
             return View(product);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid id, [FromForm] ProductViewModel productViewModel)
+        public async Task<IActionResult> Edit(Guid id, [FromForm] UpdateProductViewModel productViewModel)
         {
             if (ModelState.IsValid)
             {
                 var productDto = _mapper.Map<UpdateProductDto>(productViewModel);
-                await _productApiService.UpdateProductAsync(id, productDto);
+                var result = await _productApiService.UpdateProductAsync(id, productDto);
 
-                return RedirectToAction("Index");
+                if (result != null)
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
             return View();

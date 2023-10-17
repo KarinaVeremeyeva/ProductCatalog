@@ -6,6 +6,8 @@ namespace ProductCatalog.Web.Services
     {
         Task<IEnumerable<UserDto>?> GetUsersAsync();
 
+        Task<UserDto?> GetUserByIdAsync(string id);
+
         Task<HttpResponseMessage> CreateUserAsync(string email, string password);
 
         Task<HttpResponseMessage> DeleteUserAsync(string id);
@@ -15,5 +17,7 @@ namespace ProductCatalog.Web.Services
         Task<HttpResponseMessage> LoginAsync(LoginDto loginDto);
 
         Task<HttpResponseMessage> LogoutAsync();
+
+        Task<HttpResponseMessage> LockUserAsync(string id, bool isLocked);
     }
 }
