@@ -9,5 +9,7 @@
         public string Password { get; set; }
 
         public IEnumerable<string> Roles { get; set; }
+
+        public bool IsLocked { get; set; }
     }
 }

@@ -5,6 +5,7 @@ namespace ProductCatalog.Web.Services
     public class ApiTokenHandler : DelegatingHandler
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
+
         private const string TokenKey = "Authorization";
 
         public ApiTokenHandler(IHttpContextAccessor httpContextAccessor)
@@ -16,8 +17,8 @@ namespace ProductCatalog.Web.Services
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            //var token = _httpContextAccessor.HttpContext!.Request.Cookies[TokenKey];
-            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var token = _httpContextAccessor.HttpContext!.Request.Cookies[TokenKey];
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", ""));
 
             return await base.SendAsync(request, cancellationToken);
         }

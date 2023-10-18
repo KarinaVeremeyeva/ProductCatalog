@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ProductCatalog.Web.DTOs;
@@ -9,7 +10,6 @@ using System.Diagnostics;
 
 namespace ProductCatalog.Web.Controllers
 {
-    //[SetClaims]
     public class HomeController : Controller
     {
         private readonly IProductApiService _productApiService;

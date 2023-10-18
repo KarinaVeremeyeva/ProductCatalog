@@ -13,7 +13,10 @@
             <th>Description</th>
             <th>Price</th>
             <th>General note</th>
-            <th>Special note</th>
+            @if (User.IsInRole("AdvancedUser"))
+            {
+                <th>Special note</th>
+            }
             <th>Category</th>
             <th></th>
         </tr>
@@ -28,7 +31,10 @@
                     <input name="MaxPrice" value="@ViewBag.FilterProducts?.MaxPrice" type="number" class="form-control" placeholder="Max price" />
                 </th>
                 <th></th>
-                <th></th>
+                @if (User.IsInRole("AdvancedUser"))
+                {
+                    <th></th>
+                }
                 <th>
                 <input name="CategoryNamePart" value="@ViewBag.FilterProducts?.CategoryNamePart" class="form-control" />
                 </th>
@@ -43,7 +49,10 @@
             <td>@Html.DisplayFor(m => product.Description)</td>
             <td>@Html.DisplayFor(m => product.Price)</td>
             <td>@Html.DisplayFor(m => product.GeneralNote)</td>
-            <td>@Html.DisplayFor(m => product.SpecialNote)</td>
+            @if (User.IsInRole("AdvancedUser"))
+            {
+                <td>@Html.DisplayFor(m => product.SpecialNote)</td>
+            }
             <td>@Html.DisplayFor(m => product.Category.Name)</td>
             <td class="d-flex justify-content-center">
                 @Html.ActionLink("Edit", "Edit", "Home", new { id = product.Id }, new { @class = "btn btn-outline-primary" })

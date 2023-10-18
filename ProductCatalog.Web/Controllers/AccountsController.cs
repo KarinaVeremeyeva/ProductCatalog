@@ -60,6 +60,8 @@ namespace ProductCatalog.Web.Controllers
 
             if (response.IsSuccessStatusCode)
             {
+                await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -68,7 +70,7 @@ namespace ProductCatalog.Web.Controllers
 
         private async void AuthorizeHandle(string token)
         {
-            HttpContext.Response.Cookies.Append("Authorization", token, new CookieOptions
+            HttpContext.Response.Cookies.Append(Authorization, token, new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.Strict

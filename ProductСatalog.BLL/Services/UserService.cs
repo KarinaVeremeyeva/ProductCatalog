@@ -67,6 +67,7 @@ namespace ProductCatalog.BLL.Services
                 var roles = await _userManager.GetRolesAsync(user);
 
                 userWithRoles.Roles = roles;
+                userWithRoles.IsLocked = user.LockoutEnd != null;
                 usersWithRoles.Add(userWithRoles);
             }
 

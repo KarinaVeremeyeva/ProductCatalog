@@ -49,8 +49,8 @@ namespace ProductCatalog.API.Controllers
             return Ok(productDto);
         }
 
-        [AllowAnonymous]
-        //[Authorize(Roles = "AdvancedUser, User")]
+        //[AllowAnonymous]
+        [Authorize(Roles = "AdvancedUser, User")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct(UpdateProductDto productDto)
         {
@@ -68,8 +68,8 @@ namespace ProductCatalog.API.Controllers
 
         }
 
-        [AllowAnonymous]
-        //[Authorize(Roles = "AdvancedUser, User")]
+        //[AllowAnonymous]
+        [Authorize(Roles = "AdvancedUser, User")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(Guid id, UpdateProductDto productDto)
         {
@@ -92,8 +92,8 @@ namespace ProductCatalog.API.Controllers
             return Ok(result);
         }
 
-        [AllowAnonymous]
-        //[Authorize(Roles = "AdvancedUser")]
+        //[AllowAnonymous]
+        [Authorize(Roles = "AdvancedUser")]
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> RemoveProduct(Guid id)

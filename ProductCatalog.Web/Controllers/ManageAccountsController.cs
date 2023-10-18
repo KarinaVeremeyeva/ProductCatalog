@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.Web.DTOs;
 using ProductCatalog.Web.Services;
@@ -6,6 +7,7 @@ using ProductCatalog.Web.ViewModels;
 
 namespace ProductCatalog.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     //[SetClaims]
     public class ManageAccountsController : Controller
     {
@@ -47,18 +49,7 @@ namespace ProductCatalog.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LockUser(string id)
-        {
-            var user = await _userApiService.GetUserByIdAsync(id);
-            if (user != null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View();
-        }
-
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> LockUser(string id, bool isLocked)
         {
             var response = await _userApiService.LockUserAsync(id, isLocked);
