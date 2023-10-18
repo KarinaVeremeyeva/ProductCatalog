@@ -19,7 +19,7 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Price</th>
+            <th>Price, BYN</th>
             <th>General note</th>
             @if (User.IsInRole("AdvancedUser"))
             {
@@ -31,7 +31,7 @@
         <tr>
             <form asp-action="Index" method="post">
                 <th>
-                    <input name="NamePart" value="@ViewBag.FilterProducts?.NamePart" class="form-control" />
+                <input name="NamePart" value="@ViewBag.FilterProducts?.NamePart" class="form-control" placeholder="Product name part" />
                 </th>
                 <th></th>
                 <th>
@@ -44,7 +44,7 @@
                     <th></th>
                 }
                 <th>
-                <input name="CategoryNamePart" value="@ViewBag.FilterProducts?.CategoryNamePart" class="form-control" />
+                <input name="CategoryNamePart" value="@ViewBag.FilterProducts?.CategoryNamePart" class="form-control" placeholder="Category name part" />
                 </th>
                 <th><input type="submit" value="Apply filters" class="btn btn-outline-primary"/></th>
             </form>
@@ -55,7 +55,10 @@
         <tr>
             <td>@Html.DisplayFor(m => product.Name)</td>
             <td>@Html.DisplayFor(m => product.Description)</td>
-            <td>@Html.DisplayFor(m => product.Price)</td>
+            <td>
+                @Html.DisplayFor(m => product.Price)
+                <span title="@(Math.Round(product.Price / (decimal)ViewBag.Cur_OfficialRate, 2)) USD">*</span>
+            </td>
             <td>@Html.DisplayFor(m => product.GeneralNote)</td>
             @if (User.IsInRole("AdvancedUser"))
             {

@@ -12,15 +12,18 @@ namespace ProductCatalog.Web.Controllers
     {
         private readonly IProductApiService _productApiService;
         private readonly ICategoryApiService _categoryApiService;
+        private readonly ICurrencyRateApiService _currencyRateApiService;
         private readonly IMapper _mapper;
 
         public ProductsController(
             IProductApiService productApiService,
             ICategoryApiService categoryApiService,
+            ICurrencyRateApiService currencyRateApiService,
             IMapper mapper)
         {
             _productApiService = productApiService;
             _categoryApiService = categoryApiService;
+            _currencyRateApiService = currencyRateApiService;
             _mapper = mapper;
         }
 
@@ -32,6 +35,8 @@ namespace ProductCatalog.Web.Controllers
             var categories = await _categoryApiService.GetCategoriesAsync();
             var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
+            var usdRate = await _currencyRateApiService.GetUsdRateAsync();
+            ViewBag.Cur_OfficialRate = usdRate.Cur_OfficialRate;
             ViewBag.Categories = categoriesViewModel;
 
             return View(productsViewModels);
@@ -46,6 +51,9 @@ namespace ProductCatalog.Web.Controllers
             var productsViewModels = _mapper.Map<List<ProductViewModel>>(products);
 
             ViewBag.FilterProducts = filterProducts;
+
+            var usdRate = await _currencyRateApiService.GetUsdRateAsync();
+            ViewBag.Cur_OfficialRate = usdRate.Cur_OfficialRate;
 
             var categories = await _categoryApiService.GetCategoriesAsync();
             var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);

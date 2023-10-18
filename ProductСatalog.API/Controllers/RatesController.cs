@@ -18,10 +18,12 @@ namespace ProductCatalog.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetRateForToday(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetRateForToday()
         {
-            var rate = await _ratesService.GetRateForTodayAsync(id);
+            var dollarCurrencyId = 431;
+
+            var rate = await _ratesService.GetRateForTodayAsync(dollarCurrencyId);
             var rateDto = _mapper.Map<RateDto>(rate);
 
             return Ok(rateDto);

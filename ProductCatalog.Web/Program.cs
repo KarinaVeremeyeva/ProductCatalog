@@ -26,6 +26,12 @@ builder.Services.AddHttpClient<ICategoryApiService, CategoryApiService>(client =
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 }).AddHttpMessageHandler<ApiTokenHandler>();
 
+builder.Services.AddHttpClient<ICurrencyRateApiService, CurrencyRateApiService>(client =>
+{
+    client.BaseAddress = new Uri(webUriString);
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+}).AddHttpMessageHandler<ApiTokenHandler>();
+
 builder.Services.AddAutoMapper(typeof(WebMappingProfile));
 
 builder.Services.AddAuthentication(options =>
