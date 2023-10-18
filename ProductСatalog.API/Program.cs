@@ -62,6 +62,15 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.Configure<TokenSettings>(tokenSettings);
 
+builder.Services.AddHttpContextAccessor();
+
+var bankUriString = builder.Configuration.GetSection("UriSettings:BankApiAddress").Value;
+builder.Services.AddHttpClient<IRatesService, RatesService>(client =>
+{
+    client.BaseAddress = new Uri(bankUriString);
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
 builder.Services.AddAutoMapper(typeof(BusinessLogicProfile), typeof(MappingProfile));
 builder.Services.AddControllers();
 
