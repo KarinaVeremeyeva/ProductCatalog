@@ -30,10 +30,16 @@ namespace ProductCatalog.BLL.Services
             return result;
         }
 
-        public async Task<IdentityResult> CreateUserAsync(string email, string password)
+        public async Task<IdentityResult> CreateUserAsync(UserModel userModel)
         {
-            var user = new IdentityUser { Email = email, UserName = email };
-            var result = await _userManager.CreateAsync(user, password);
+            var user = new IdentityUser
+            {
+                Email = userModel.Email,
+                NormalizedEmail = userModel.Email.ToUpper(),
+                UserName = userModel.Email,
+                NormalizedUserName = userModel.Email.ToUpper()
+            };
+            var result = await _userManager.CreateAsync(user, userModel.Password);
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");

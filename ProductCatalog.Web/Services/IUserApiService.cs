@@ -8,7 +8,7 @@ namespace ProductCatalog.Web.Services
 
         Task<UserDto?> GetUserByIdAsync(string id);
 
-        Task<HttpResponseMessage> CreateUserAsync(string email, string password);
+        Task<HttpResponseMessage> CreateUserAsync(CreateUserDto userDto);
 
         Task<HttpResponseMessage> DeleteUserAsync(string id);
 

@@ -18,6 +18,8 @@ namespace ProductCatalog.Web
             CreateMap<UpdateCategoryDto, CategoryViewModel>().ReverseMap();
             CreateMap<LoginDto, LoginViewModel>().ReverseMap();
             CreateMap<UserDto, UserViewModel>();
+            CreateMap<UserDto, UpdateUserViewModel>().ReverseMap();
+            CreateMap<UpdateUserViewModel, CreateUserDto>();
         }
     }
 }

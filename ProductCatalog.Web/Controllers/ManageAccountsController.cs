@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using ProductCatalog.Web.DTOs;
 using ProductCatalog.Web.Services;
 using ProductCatalog.Web.ViewModels;
 
 namespace ProductCatalog.Web.Controllers
 {
+    //[SetClaims]
     public class ManageAccountsController : Controller
     {
         private readonly IUserApiService _userApiService;
@@ -32,13 +34,14 @@ namespace ProductCatalog.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string email, string password)
+        public async Task<IActionResult> Create(UpdateUserViewModel userViewModel)
         {
-            var response = await _userApiService.CreateUserAsync(email, password);
+            var userDto = _mapper.Map<CreateUserDto>(userViewModel);
+            var response = await _userApiService.CreateUserAsync(userDto);
+
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction(nameof(Index));
-
             }
 
             return View();
@@ -65,13 +68,15 @@ namespace ProductCatalog.Web.Controllers
 
         public async Task<IActionResult> Delete(string id)
         {
-            var user = await _userApiService.GetUserByIdAsync(id);
-            if (user != null)
+            var userToDelete = await _userApiService.GetUserByIdAsync(id);
+            if (userToDelete == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Error", "Home");
             }
 
-            return View();
+            var user = _mapper.Map<UserViewModel>(userToDelete);
+
+            return View(user);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -85,18 +90,21 @@ namespace ProductCatalog.Web.Controllers
         public async Task<IActionResult> ChangeUserPassword(string id)
         {
             var user = await _userApiService.GetUserByIdAsync(id);
-            if (user != null)
+
+            if (user == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(user);
+            var userViewModel = _mapper.Map<UpdateUserViewModel>(user);
+
+            return View(userViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeUserPassword(string id, string newPassword)
+        public async Task<IActionResult> ChangeUserPassword(string id, string password)
         {
-            var response = await _userApiService.ChangeUserPasswordAsync(id, newPassword);
+            var response = await _userApiService.ChangeUserPasswordAsync(id, password);
 
             return RedirectToAction(nameof(Index));
         }

@@ -2,10 +2,10 @@
 @{
     ViewData["Title"] = "Delete category page";
 }
-<h3>Delete category</h3>
+<h4>Delete category</h4>
 <input type="hidden" asp-for="Id" />
-<div>@Html.DisplayFor(model => model.Name)</div>
+<div class="mb-3">@Html.DisplayFor(model => model.Name)</div>
 
-<form asp-action="Delete" method="post">
+<form asp-action="Delete" method="post" class="col-md-4">
     <button type="submit" class="btn btn-primary">Delete</button>
 </form>

@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.Web.DTOs;
 using ProductCatalog.Web.Services;
 using ProductCatalog.Web.ViewModels;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace ProductCatalog.Web.Controllers
 {
@@ -10,6 +15,8 @@ namespace ProductCatalog.Web.Controllers
     {
         private readonly IUserApiService _userApiService;
         private readonly IMapper _mapper;
+
+        private const string Authorization = "Authorization";
 
         public AccountsController(
             IUserApiService userApiService,
@@ -28,12 +35,17 @@ namespace ProductCatalog.Web.Controllers
         public async Task<IActionResult> Login([FromForm] LoginViewModel loginModel)
         {
             var loginDto = _mapper.Map<LoginDto>(loginModel);
-            var response = await _userApiService.LoginAsync(loginDto);
 
             if (ModelState.IsValid)
             {
-                if (response.IsSuccessStatusCode && response.Headers.Contains("Authorization"))
+                var response = await _userApiService.LoginAsync(loginDto);
+
+                if (response.IsSuccessStatusCode && response.Headers.Contains(Authorization))
                 {
+                    var token = response.Headers.GetValues(Authorization).ToArray()[0];
+
+                    AuthorizeHandle(token);
+
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -52,6 +64,26 @@ namespace ProductCatalog.Web.Controllers
             }
 
             return Forbid();
+        }
+
+        private async void AuthorizeHandle(string token)
+        {
+            HttpContext.Response.Cookies.Append("Authorization", token, new CookieOptions
+            {
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict
+            });
+
+            var jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(token.Replace("Bearer ", ""));
+
+            var claimsIdentity = new ClaimsIdentity(jwtToken.Claims, "UserInfo",
+                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
+            var role = jwtToken.Claims.First(c => c.Type == ClaimTypes.Role).Value;
+
+            HttpContext.User = new GenericPrincipal(claimsIdentity, new string[] { role });
+
+            await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, HttpContext.User);
         }
     }
 }

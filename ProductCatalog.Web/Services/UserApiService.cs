@@ -34,9 +34,9 @@ namespace ProductCatalog.Web.Services
             return await _httpClient.GetFromJsonAsync<UserDto>($"{UsersApiPath}/{id}");
         }
 
-        public async Task<HttpResponseMessage> CreateUserAsync(string email, string password)
+        public async Task<HttpResponseMessage> CreateUserAsync(CreateUserDto userDto)
         {
-            return await _httpClient.PostAsJsonAsync($"{UsersApiPath}", new { email, password });
+            return await _httpClient.PostAsJsonAsync($"{UsersApiPath}", userDto);
         }
 
         public async Task<HttpResponseMessage> DeleteUserAsync(string id)

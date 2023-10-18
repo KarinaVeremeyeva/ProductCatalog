@@ -6,6 +6,7 @@ using ProductCatalog.Web.ViewModels;
 
 namespace ProductCatalog.Web.Controllers
 {
+    //[SetClaims]
     public class CategoriesController : Controller
     {
         private readonly ICategoryApiService _categoryApiService;

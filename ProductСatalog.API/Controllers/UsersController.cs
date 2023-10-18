@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.API.DTOs;
+using ProductCatalog.BLL.Models;
 using ProductCatalog.BLL.Services;
+using ProductСatalog.BLL.Models;
 
 namespace ProductCatalog.API.Controllers
 {
@@ -45,15 +48,17 @@ namespace ProductCatalog.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(string email, string password)
+        public async Task<IActionResult> CreateUser(CreateUserDto userDto)
         {
-            var user = await _userService.GetUserByEmailAsync(email);
+            var user = await _userService.GetUserByEmailAsync(userDto.Email);
             if (user != null)
             {
                 return BadRequest();
             }
 
-            var result = await _userService.CreateUserAsync(email, password);
+            var userModel = _mapper.Map<UserModel>(userDto);
+
+            var result = await _userService.CreateUserAsync(userModel);
             if (result.Errors.Any())
             {
                 return BadRequest(result.Errors);

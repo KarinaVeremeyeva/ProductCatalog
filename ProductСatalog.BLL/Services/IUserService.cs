@@ -7,7 +7,7 @@ namespace ProductCatalog.BLL.Services
     {
         Task<IdentityResult> ChangeUserPasswordAsync(string userId, string newPassword);
 
-        Task<IdentityResult> CreateUserAsync(string email, string password);
+        Task<IdentityResult> CreateUserAsync(UserModel userModel);
 
         Task<IdentityResult> DeleteUserAsync(string id);
 
