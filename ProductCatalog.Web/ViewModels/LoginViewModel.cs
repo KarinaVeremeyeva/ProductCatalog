@@ -4,6 +4,7 @@ namespace ProductCatalog.Web.ViewModels
 {
     public class LoginViewModel
     {
+        [EmailAddress]
         [Required]
         public string Email { get; set; }
 

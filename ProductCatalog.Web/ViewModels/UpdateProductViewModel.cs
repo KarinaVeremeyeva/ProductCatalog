@@ -1,4 +1,6 @@
-﻿namespace ProductCatalog.Web.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProductCatalog.Web.ViewModels
 {
     public class UpdateProductViewModel
     {
@@ -8,6 +10,7 @@
 
         public string Description { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:0.##}", ApplyFormatInEditMode = true)]
         public decimal Price { get; set; }
 
         public string GeneralNote { get; set; }

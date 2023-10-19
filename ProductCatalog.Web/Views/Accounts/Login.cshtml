@@ -6,7 +6,7 @@
 <h2>Login</h2>
 <form method="post" asp-controller="Accounts" asp-action="Login">
     <div class="form-horizontal col-md-4">
-        <div asp-validation-summary="All"></div>
+        <div class="validation" asp-validation-summary="All"></div>
         <div class="mb-3">
             <label asp-for="Email">Email</label>
             <input asp-for="Email" class="form-control" />
