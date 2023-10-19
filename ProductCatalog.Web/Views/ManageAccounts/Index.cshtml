@@ -21,7 +21,7 @@
             <td>@Html.DisplayFor(m => user.Email)</td>
             <td>@Html.DisplayFor(m => user.Roles)</td>
             <td>@Html.DisplayFor(m => user.IsLocked)</td>
-            <td class="d-flex justify-content-center">
+            <td>
                 @Html.ActionLink("Lock", "LockUser", new { id = user.Id, isLocked = !user.IsLocked }, new { @class = "btn btn-outline-success" })
                 @Html.ActionLink("Change password", "ChangeUserPassword", new { id = user.Id }, new { @class = "btn btn-outline-warning" })
                 @Html.ActionLink("Delete", "Delete", new { id = user.Id }, new { @class = "btn btn-outline-danger" })

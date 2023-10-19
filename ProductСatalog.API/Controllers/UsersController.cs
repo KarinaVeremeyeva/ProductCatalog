@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.API.DTOs;
-using ProductCatalog.BLL.Models;
 using ProductCatalog.BLL.Services;
 using ProductСatalog.BLL.Models;
 

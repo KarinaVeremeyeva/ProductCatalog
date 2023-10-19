@@ -58,5 +58,10 @@ namespace ProductCatalog.Web.Services
 
             return await result.Content.ReadFromJsonAsync<ProductDto>();
         }
+
+        public async Task<IEnumerable<ProductDto>?> GetProductsByCategoryIdAsync(Guid categoryId)
+        {
+            return await _httpClient.GetFromJsonAsync<IEnumerable<ProductDto>>($"{ProductsPath}/category/{categoryId}");
+        }
     }
 }

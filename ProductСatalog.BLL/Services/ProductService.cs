@@ -82,6 +82,17 @@ namespace ProductCatalog.BLL.Services
             return productModels;
         }
 
+        public async Task<IEnumerable<ProductModel>> GetProductsByCategoryIdAsync(Guid categoryId)
+        {
+            var products = await _productRepository.GetQuery()
+                .Where(q => q.CategoryId == categoryId)
+                .ToListAsync();
+
+            var productModels = _mapper.Map<List<ProductModel>>(products);
+
+            return productModels;
+        }
+
         public async Task RemoveProductAsync(Guid productId)
         {
             var product = await _productRepository.GetByIdAsync(productId);

@@ -1,11 +1,19 @@
 ﻿@model IEnumerable<ProductViewModel>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Products Page";
 }
 <h4>Products list</h4>
-<p>
-    @Html.ActionLink("Create", "Create", "Home", null, new { @class = "btn btn-primary" })
-</p>
+<h5>Categories</h5>
+<ul>
+    @foreach (var category in ViewBag.Categories as List<CategoryViewModel>)
+    {
+        <li>@Html.ActionLink(category.Name, "ProductsByCategory", "Products", new { categoryId = category.Id })</li>
+    }
+</ul>
+@if (User.IsInRole("AdvancedUser") || User.IsInRole("User"))
+{
+    <p>@Html.ActionLink("Create", "Create", "Products", null, new { @class = "btn btn-primary" })</p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -54,9 +62,15 @@
                 <td>@Html.DisplayFor(m => product.SpecialNote)</td>
             }
             <td>@Html.DisplayFor(m => product.Category.Name)</td>
-            <td class="d-flex justify-content-center">
-                @Html.ActionLink("Edit", "Edit", "Home", new { id = product.Id }, new { @class = "btn btn-outline-primary" })
-                @Html.ActionLink("Delete", "Delete", new { id = product.Id }, new { @class = "btn btn-outline-danger" })
+            <td>
+                @if (User.IsInRole("AdvancedUser") || User.IsInRole("User"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = product.Id }, new { @class = "btn btn-outline-primary" })
+                }
+                @if (User.IsInRole("AdvancedUser"))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = product.Id }, new { @class = "btn btn-outline-danger" })
+                }
             </td>
         </tr>
     }

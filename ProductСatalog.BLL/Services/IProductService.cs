@@ -10,6 +10,8 @@ namespace ProductCatalog.BLL.Services
 
         Task<ProductModel?> GetProductByIdAsync(Guid id);
 
+        Task<IEnumerable<ProductModel>> GetProductsByCategoryIdAsync(Guid categoryId);
+
         Task<ProductModel> UpdateProductAsync(Guid id, ProductModel product);
 
         Task RemoveProductAsync(Guid id);

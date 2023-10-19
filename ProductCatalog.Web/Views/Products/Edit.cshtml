@@ -20,10 +20,17 @@
         <label class="form-label">General note</label>
         <input asp-for="GeneralNote" class="form-control" />
     </div>
-    <div class="mb-3">
-        <label class="form-label">Special note</label>
-        <input asp-for="SpecialNote" class="form-control" />
-    </div>
+    @if (User.IsInRole("AdvancedUser"))
+    {
+        <div class="mb-3">
+            <label class="form-label">Special note</label>
+            <input asp-for="SpecialNote" class="form-control" />
+        </div>
+    }
+    else
+    {
+        <input type="hidden" asp-for="SpecialNote" />
+    }
     <div class="mb-3">
         <label class="form-label">Category</label>
         <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select"></select>

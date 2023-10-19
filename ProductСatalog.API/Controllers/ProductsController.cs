@@ -49,7 +49,15 @@ namespace ProductCatalog.API.Controllers
             return Ok(productDto);
         }
 
-        //[AllowAnonymous]
+        [HttpGet("category/{categoryId}")]
+        public async Task<IActionResult> GetProductsByCategoryId(Guid categoryId)
+        {
+            var products = await _productService.GetProductsByCategoryIdAsync(categoryId);
+            var productsDto = _mapper.Map<List<ProductDto>>(products);
+
+            return Ok(productsDto);
+        }
+
         [Authorize(Roles = "AdvancedUser, User")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct(UpdateProductDto productDto)
@@ -68,7 +76,6 @@ namespace ProductCatalog.API.Controllers
 
         }
 
-        //[AllowAnonymous]
         [Authorize(Roles = "AdvancedUser, User")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(Guid id, UpdateProductDto productDto)
@@ -92,7 +99,6 @@ namespace ProductCatalog.API.Controllers
             return Ok(result);
         }
 
-        //[AllowAnonymous]
         [Authorize(Roles = "AdvancedUser")]
         [Authorize]
         [HttpDelete("{id}")]

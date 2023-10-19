@@ -46,7 +46,7 @@ namespace ProductCatalog.Web.Controllers
 
                     AuthorizeHandle(token);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Products");
                 }
             }
 
@@ -62,7 +62,7 @@ namespace ProductCatalog.Web.Controllers
             {
                 await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Products");
             }
 
             return Forbid();

@@ -18,7 +18,11 @@ namespace ProductCatalog.Web.Services
             CancellationToken cancellationToken)
         {
             var token = _httpContextAccessor.HttpContext!.Request.Cookies[TokenKey];
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", ""));
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", ""));
+            }
 
             return await base.SendAsync(request, cancellationToken);
         }

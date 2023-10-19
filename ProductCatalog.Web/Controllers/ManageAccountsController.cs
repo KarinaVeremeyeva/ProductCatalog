@@ -8,7 +8,6 @@ using ProductCatalog.Web.ViewModels;
 namespace ProductCatalog.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
-    //[SetClaims]
     public class ManageAccountsController : Controller
     {
         private readonly IUserApiService _userApiService;

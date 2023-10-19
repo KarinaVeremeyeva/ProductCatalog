@@ -10,6 +10,8 @@ namespace ProductCatalog.Web.Services
 
         Task<ProductDto?> GetProductByIdAsync(Guid id);
 
+        Task<IEnumerable<ProductDto>?> GetProductsByCategoryIdAsync(Guid categoryId);
+
         Task<ProductDto?> CreateProductAsync(UpdateProductDto productDto);
 
         Task<ProductDto?> UpdateProductAsync(Guid id, UpdateProductDto productDto);

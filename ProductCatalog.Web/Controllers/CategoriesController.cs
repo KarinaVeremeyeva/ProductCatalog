@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.Web.DTOs;
 using ProductCatalog.Web.Services;
@@ -6,7 +7,7 @@ using ProductCatalog.Web.ViewModels;
 
 namespace ProductCatalog.Web.Controllers
 {
-    //[SetClaims]
+    [Authorize(Roles = "AdvancedUser")]
     public class CategoriesController : Controller
     {
         private readonly ICategoryApiService _categoryApiService;
@@ -20,6 +21,7 @@ namespace ProductCatalog.Web.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var categories = await _categoryApiService.GetCategoriesAsync();
