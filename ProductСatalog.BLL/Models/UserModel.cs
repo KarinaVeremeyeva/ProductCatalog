@@ -1,6 +1,4 @@
-﻿using ProductCatalog.BLL.Models;
-
-namespace ProductСatalog.BLL.Models
+﻿namespace ProductСatalog.BLL.Models
 {
     public class UserModel
     {
@@ -10,6 +8,8 @@ namespace ProductСatalog.BLL.Models
 
         public string Password { get; set; }
 
-        public List<string> Roles { get; set; }
+        public IEnumerable<string> Roles { get; set; }
+
+        public bool IsLocked { get; set; }
     }
 }

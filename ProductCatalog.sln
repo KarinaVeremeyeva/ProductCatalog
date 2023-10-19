@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductCatalog.DAL", "Produ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductCatalog.BLL", "ProductСatalog.BLL\ProductCatalog.BLL.csproj", "{82FBF8DA-94D3-4EC2-B330-72F3B5AEA0CB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCatalog.Web", "ProductCatalog.Web\ProductCatalog.Web.csproj", "{5CD0D2B1-956D-4E5A-94D3-C09BCDC97C5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{82FBF8DA-94D3-4EC2-B330-72F3B5AEA0CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82FBF8DA-94D3-4EC2-B330-72F3B5AEA0CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82FBF8DA-94D3-4EC2-B330-72F3B5AEA0CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CD0D2B1-956D-4E5A-94D3-C09BCDC97C5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CD0D2B1-956D-4E5A-94D3-C09BCDC97C5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CD0D2B1-956D-4E5A-94D3-C09BCDC97C5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CD0D2B1-956D-4E5A-94D3-C09BCDC97C5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

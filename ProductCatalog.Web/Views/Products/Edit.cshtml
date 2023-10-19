@@ -1,0 +1,40 @@
+﻿@model UpdateProductViewModel
+@{
+    ViewData["Title"] = "Edit product page";
+}
+<h4>Edit product</h4>
+<form asp-action="Edit" method="post" asp-route-id="@Model.Id" class="col-md-4">
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Price</label>
+        <input asp-for="Price" type="number" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">General note</label>
+        <input asp-for="GeneralNote" class="form-control" />
+    </div>
+    @if (User.IsInRole("AdvancedUser"))
+    {
+        <div class="mb-3">
+            <label class="form-label">Special note</label>
+            <input asp-for="SpecialNote" class="form-control" />
+        </div>
+    }
+    else
+    {
+        <input type="hidden" asp-for="SpecialNote" />
+    }
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

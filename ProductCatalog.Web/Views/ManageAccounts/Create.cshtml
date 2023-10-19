@@ -1,0 +1,16 @@
+﻿@model UpdateUserViewModel
+@{
+    ViewData["Title"] = "Create user page";
+}
+<h4>Create user</h4>
+<form asp-action="Create" method="post" class="col-md-4">
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

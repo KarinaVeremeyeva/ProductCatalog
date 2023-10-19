@@ -1,0 +1,16 @@
+﻿@model ProductViewModel
+@{
+    ViewData["Title"] = "Delete product page";
+}
+<h3>Delete product</h3>
+<input type="hidden" asp-for="Id" />
+<div>@Html.DisplayFor(model => model.Name)</div>
+<div>@Html.DisplayFor(model => model.Price)</div>
+<div>@Html.DisplayFor(model => model.Description)</div>
+<div>@Html.DisplayFor(model => model.GeneralNote)</div>
+<div>@Html.DisplayFor(model => model.SpecialNote)</div>
+<div>@Html.DisplayFor(model => model.Category.Name)</div>
+
+<form asp-action="Delete" method="post">
+    <button type="submit" class="btn btn-primary">Delete</button>
+</form>

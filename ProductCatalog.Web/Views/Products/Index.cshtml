@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ProductViewModel>
+@{
+    ViewData["Title"] = "Products Page";
+}
+<h4>Products list</h4>
+<h5>Categories</h5>
+<ul>
+    @foreach (var category in ViewBag.Categories as List<CategoryViewModel>)
+    {
+        <li>@Html.ActionLink(category.Name, "ProductsByCategory", "Products", new { categoryId = category.Id })</li>
+    }
+</ul>
+@if (User.IsInRole("AdvancedUser") || User.IsInRole("User"))
+{
+    <p>@Html.ActionLink("Create", "Create", "Products", null, new { @class = "btn btn-primary" })</p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>General note</th>
+            @if (User.IsInRole("AdvancedUser"))
+            {
+                <th>Special note</th>
+            }
+            <th>Category</th>
+            <th></th>
+        </tr>
+        <tr>
+            <form asp-action="Index" method="post">
+                <th>
+                    <input name="NamePart" value="@ViewBag.FilterProducts?.NamePart" class="form-control" />
+                </th>
+                <th></th>
+                <th>
+                    <input name="MinPrice" value="@ViewBag.FilterProducts?.MinPrice" type="number" class="form-control" placeholder="Min price" />
+                    <input name="MaxPrice" value="@ViewBag.FilterProducts?.MaxPrice" type="number" class="form-control" placeholder="Max price" />
+                </th>
+                <th></th>
+                @if (User.IsInRole("AdvancedUser"))
+                {
+                    <th></th>
+                }
+                <th>
+                <input name="CategoryNamePart" value="@ViewBag.FilterProducts?.CategoryNamePart" class="form-control" />
+                </th>
+                <th><input type="submit" value="Apply filters" class="btn btn-outline-primary"/></th>
+            </form>
+        </tr>
+    </thead>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => product.Name)</td>
+            <td>@Html.DisplayFor(m => product.Description)</td>
+            <td>@Html.DisplayFor(m => product.Price)</td>
+            <td>@Html.DisplayFor(m => product.GeneralNote)</td>
+            @if (User.IsInRole("AdvancedUser"))
+            {
+                <td>@Html.DisplayFor(m => product.SpecialNote)</td>
+            }
+            <td>@Html.DisplayFor(m => product.Category.Name)</td>
+            <td>
+                @if (User.IsInRole("AdvancedUser") || User.IsInRole("User"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = product.Id }, new { @class = "btn btn-outline-primary" })
+                }
+                @if (User.IsInRole("AdvancedUser"))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = product.Id }, new { @class = "btn btn-outline-danger" })
+                }
+            </td>
+        </tr>
+    }
+</table>

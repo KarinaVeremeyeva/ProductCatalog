@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductCatalog.API.DTOs;
 using ProductCatalog.BLL.Services;
+using ProductСatalog.BLL.Models;
 
 namespace ProductCatalog.API.Controllers
 {
@@ -31,16 +32,32 @@ namespace ProductCatalog.API.Controllers
             return Ok(usersDto);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateUser(string email, string password)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(string id)
         {
-            var user = await _userService.GetUserByEmailAsync(email);
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return Ok(userDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(CreateUserDto userDto)
+        {
+            var user = await _userService.GetUserByEmailAsync(userDto.Email);
             if (user != null)
             {
                 return BadRequest();
             }
 
-            var result = await _userService.CreateUserAsync(email, password);
+            var userModel = _mapper.Map<UserModel>(userDto);
+
+            var result = await _userService.CreateUserAsync(userModel);
             if (result.Errors.Any())
             {
                 return BadRequest(result.Errors);

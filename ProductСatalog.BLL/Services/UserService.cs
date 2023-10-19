@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ProductCatalog.BLL.Models;
 using ProductСatalog.BLL.Models;
 
 namespace ProductCatalog.BLL.Services
@@ -10,18 +9,15 @@ namespace ProductCatalog.BLL.Services
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
         public UserService(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
             IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _mapper = mapper;
         }
 
@@ -34,10 +30,16 @@ namespace ProductCatalog.BLL.Services
             return result;
         }
 
-        public async Task<IdentityResult> CreateUserAsync(string email, string password)
+        public async Task<IdentityResult> CreateUserAsync(UserModel userModel)
         {
-            var user = new IdentityUser { Email = email, UserName = email };
-            var result = await _userManager.CreateAsync(user, password);
+            var user = new IdentityUser
+            {
+                Email = userModel.Email,
+                NormalizedEmail = userModel.Email.ToUpper(),
+                UserName = userModel.Email,
+                NormalizedUserName = userModel.Email.ToUpper()
+            };
+            var result = await _userManager.CreateAsync(user, userModel.Password);
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");
@@ -57,9 +59,19 @@ namespace ProductCatalog.BLL.Services
         public async Task<IEnumerable<UserModel>> GetUsersAsync()
         {
             var users = await _userManager.Users.ToListAsync();
-            var usersModels = _mapper.Map<List<UserModel>>(users);
+            var usersWithRoles = new List<UserModel>();
 
-            return usersModels;
+            foreach (var user in users)
+            {
+                var userWithRoles = _mapper.Map<UserModel>(user);
+                var roles = await _userManager.GetRolesAsync(user);
+
+                userWithRoles.Roles = roles;
+                userWithRoles.IsLocked = user.LockoutEnd != null;
+                usersWithRoles.Add(userWithRoles);
+            }
+
+            return usersWithRoles;
         }
 
         public async Task LockUserAsync(string userId, bool isLocked)

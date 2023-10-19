@@ -1,0 +1,31 @@
+﻿@model IEnumerable<UserViewModel>
+@{
+    ViewData["Title"] = "Manage accounts Page";
+}
+<h4>Manage accounts</h4>
+<p>
+    @Html.ActionLink("Create", "Create", "ManageAccounts", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Is Locked</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => user.Email)</td>
+            <td>@Html.DisplayFor(m => user.Roles)</td>
+            <td>@Html.DisplayFor(m => user.IsLocked)</td>
+            <td>
+                @Html.ActionLink("Lock", "LockUser", new { id = user.Id, isLocked = !user.IsLocked }, new { @class = "btn btn-outline-success" })
+                @Html.ActionLink("Change password", "ChangeUserPassword", new { id = user.Id }, new { @class = "btn btn-outline-warning" })
+                @Html.ActionLink("Delete", "Delete", new { id = user.Id }, new { @class = "btn btn-outline-danger" })
+            </td>
+        </tr>
+    }
+</table>

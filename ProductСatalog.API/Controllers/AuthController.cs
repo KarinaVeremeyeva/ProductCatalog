@@ -23,6 +23,11 @@ namespace ProductCatalog.API.Controllers
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             var result = await _userService.LoginAsync(loginDto.Email, loginDto.Password);
+            if (!result.Succeeded)
+            {
+                return BadRequest("Invalid login or password");
+            }
+
             if (result.IsLockedOut)
             {
                 const string message = "Your account is locked out.";
