@@ -1,3 +1,13 @@
+## ProductCatalog
+Application for managing products and their categories. Provides access for 3 roles of users:
+- User - Create and edit products
+- AdvancedUser - Create, edit, delete products and categories. Shows additional field 'Special note'
+- Admin - Create user, change passsword, lock and delete user
+
+The products page shows the products price in Belarusian rubles and US dollars.
+
+The project consist of 2 microservices: WEB API for data management and WEB MVC for user interface.
+
 ## Technologies
 - .NET 6
 - ASP.NET Core Web API + ASP.NET Core MVC
@@ -6,10 +16,14 @@
 - Entity Framework Core
 - AutoMapper
 - Serilog
+- Bootstrap 5
 
 ## Screenshots
-#### Products page:
+#### Products page (Role - Advanced User):
 ![image](https://github.com/KarinaVeremeyeva/ProductCatalog/assets/57318127/4b2c6aa2-feea-46ae-8528-27ed6cf0915c)
+
+#### Products page (Role - User)
+![image](https://github.com/KarinaVeremeyeva/ProductCatalog/assets/57318127/9dec805a-4989-4de9-a929-04198250d9ed)
 
 #### Products page after applying filters:
 ![image](https://github.com/KarinaVeremeyeva/ProductCatalog/assets/57318127/aa332106-ac8e-4736-a406-873a61dbf70a)
